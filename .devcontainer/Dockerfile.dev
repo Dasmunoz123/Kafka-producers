@@ -1,0 +1,24 @@
+FROM python:3.11.3-bullseye
+
+RUN apt-get update -y
+RUN apt install -y librdkafka-dev
+
+# Create filesystem tree structure
+#RUN mkdir /opt/phenomena-agent
+#RUN mkdir /opt/phenomena-agent/bin
+#RUN mkdir /opt/phenomena-agent/config
+#RUN mkdir /opt/phenomena-agent/secrets
+#RUN mkdir /var/log/phenomena-agent
+
+WORKDIR /opt/synthetic-kafka-producer
+
+ADD .devcontainer/requirements.txt .
+RUN pip3 install -r requirements.txt
+
+#ADD config /opt/phenomena-agent/config
+#ADD source /opt/phenomena-agent/bin
+#ADD secrets /opt/phenomena-agent/secrets
+
+ENTRYPOINT [ "python3", "/opt/phenomena-agent/bin/main.py"]
+
+#CMD ["-f", "/opt/phenomena-agent/config/config.yaml"]
